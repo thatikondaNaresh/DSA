@@ -1,0 +1,107 @@
+1. Height of the binary tree
+  int maxDepth(Node node){
+        if(node == null){
+            return 0;
+        }
+        else{
+            int ldepth = maxDepth(node.left);
+            int rdepth = maxDepth(node.right);
+
+            if(ldepth > rdepth){
+                return ldepth + 1;
+            }
+            else{
+                return rdepth + 1;
+            }
+        }
+    }
+
+
+
+
+public static void main(String[] args){
+        HeightOfTree tree = new HeightOfTree();
+        tree.root = new Node(1);
+        tree.root.left = new Node(2);
+        tree.root.left.left = new Node(4);
+        tree.root.left.right = new Node(5);
+        tree.root.right = new Node(3);
+
+        System.out.println("Height of a given tree is:"+tree.maxDepth(tree.root));
+    }
+
+
+Leetcode Solutions
+
+class Solution {
+    public int maxDepth(TreeNode root) {
+        if(root == null){
+            return 0;
+        }
+        else{
+            int lDepth = maxDepth(root.left);
+            int rDepth = maxDepth(root.right);
+
+            if(lDepth > rDepth){
+                return lDepth + 1;
+            }
+            else{
+                return rDepth + 1;
+            }
+        }
+        
+    }
+}
+
+
+2. Level Order Traversal of the tree
+class Solution {
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> levels = new ArrayList<List<Integer>>();
+        if(root == null){
+            return levels;
+        }
+
+        Queue<TreeNode> queue = new LinkedList<TreeNode>();
+        queue.add(root);
+        int level = 0;
+        while(!queue.isEmpty()){
+            levels.add(new ArrayList<Integer>());
+
+            int levelLen = queue.size();
+            for(int i=0; i<levelLen; i++){
+                TreeNode node = queue.remove();
+                levels.get(level).add(node.val);
+
+                if(node.left!=null){
+                    queue.add(node.left);
+                }
+
+                if(node.right!=null){
+                    queue.add(node.right);
+                } 
+            }
+            level = level + 1;
+        }
+            return levels;
+        }        
+}
+
+3. Symmetric Tree
+class Solution {
+    public boolean isSymmetric(TreeNode root) {
+        return isMirror(root, root);
+        
+    }
+
+    public boolean isMirror(TreeNode t1, TreeNode t2){
+        if(t1==null && t2==null){
+            return true;
+        }
+        if(t1==null || t2==null){
+            return false;
+        }
+
+        return(t1.val == t2.val) && isMirror(t1.right, t2.left) && isMirror(t1.left, t2.right);
+    }
+}

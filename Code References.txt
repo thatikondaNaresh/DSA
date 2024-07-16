@@ -1,0 +1,47 @@
+1. Diameter of Binary Tree
+
+class Solution {
+    public int diameterOfBinaryTree(TreeNode root) {
+        int diameter[] = new int[1];
+        height(root, diameter);
+        return diameter[0];
+        
+    }
+
+    public int height(TreeNode node, int[] diameter){
+        if(node == null){
+            return 0;
+        }
+        int lDepth = height(node.left, diameter);
+        int rDepth = height(node.right, diameter);
+
+        diameter[0] = Math.max(diameter[0], lDepth + rDepth);
+
+        return 1 + Math.max(lDepth, rDepth);
+    }
+}
+
+
+2. Maximum Path Sum
+
+class Solution {
+    public int maxPathSum(TreeNode root) {
+        int maxValue[] = new int[1];
+        maxValue[0] = Integer.MIN_VALUE;
+        maxPathDown(root, maxValue);
+        return maxValue[0];
+        
+    }
+
+    public int maxPathDown(TreeNode node, int[] maxValue){
+        if(node == null){
+            return 0;
+        }
+
+        int left = Math.max(0, maxPathDown(node.left, maxValue));
+        int right = Math.max(0, maxPathDown(node.right, maxValue));
+        maxValue[0] = Math.max(maxValue[0], left+right+node.val);
+        return Math.max(left, right) + node.val;
+    }
+}
+
