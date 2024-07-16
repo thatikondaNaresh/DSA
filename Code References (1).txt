@@ -1,0 +1,66 @@
+1. K Closest Points to Origin
+import java.lang.Math;
+class Solution {
+    public class Point implements Comparable<Point>{
+        int x;
+        int y;
+        double distance;
+        int i;
+
+        // constructor
+        public Point(int x, int y, double distance, int i){
+            this.x = x;
+            this.y = y;
+            this.distance = distance;
+            this.i = i;
+        }
+
+        @Override
+        public int compareTo(Point p1){
+            // sort the data on the basis of distance in the ascending order
+            return Double.compare(this.distance, p1.distance);
+        }
+    }
+
+    public int[][] kClosest(int[][] points, int k) {
+        //1. creation of the minheap
+        PriorityQueue<Point> minheap = new PriorityQueue<Point>();
+        for(int i=0; i<points.length; i++){
+            // points[i][0] = x^2
+            // points[i][1] = y^2
+            double distance = Math.sqrt(points[i][0] * points[i][0] + points[i][1] * points[i][1]);
+            //int distance = points[i][0] * points[i][0] + points[i][1] * points[i][1];
+            // double everywhere for the distance parameter
+            //int rounddistanceValue = (int) distance;
+            minheap.add(new Point(points[i][0], points[i][1], distance, i));
+        }
+
+
+        //2. Deletion from the minheap - k times
+        int[][] result = new int[k][];
+        for(int i=0; i<k; i++){
+            Point point = minheap.remove();
+            result[i] = new int[]{points[point.i][0], points[point.i][1]};
+        }
+
+        return result;
+    }
+}
+
+
+2. Kth Largest Element in an Array
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        PriorityQueue<Integer> minheap = new PriorityQueue<>();
+
+        for(int num : nums){
+            minheap.add(num);
+            // deletion of elements from the minheap n-k times
+            if(minheap.size() > k){
+                minheap.remove();
+            }
+        }
+        
+        return minheap.peek();
+    }
+}
